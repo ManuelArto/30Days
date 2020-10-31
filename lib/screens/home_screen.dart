@@ -1,0 +1,43 @@
+import 'package:TrentaGiorni/screens/insert_screen.dart';
+import 'package:TrentaGiorni/widgets/users_controller.dart';
+import 'package:flutter/material.dart';
+
+import 'package:TrentaGiorni/widgets/gradient_background.dart';
+
+class HomeScreen extends StatelessWidget {
+  static const routeName = "/homescreen";
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return Scaffold(
+      body: Stack(
+        children: [
+          GradienBackGround(height: screenSize.height * 0.35),
+          Positioned(
+            top: screenSize.height * 0.08,
+            width: screenSize.width,
+            child: Text(
+              "30 Days",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.amber[50],
+                fontSize: 34,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Positioned(
+            top: screenSize.height * 0.17,
+            child: UsersController(screenSize),
+          )
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add, color: Colors.black),
+        onPressed: () =>
+            Navigator.of(context).pushNamed(InsertScreen.routeName),
+      ),
+    );
+  }
+}
