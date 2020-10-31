@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:TrentaGiorni/models/user.dart';
 
@@ -30,6 +31,7 @@ class UserCards extends StatelessWidget {
                     .toUpperCase()
                     .startsWith(_queryUser.toUpperCase()))
             .toList();
+    _users.sort((user1, user2) => user1.date.difference(user2.date).inSeconds);
     return Flexible(
       fit: FlexFit.tight,
       child: ListView.builder(
@@ -53,7 +55,7 @@ class UserCards extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
               ),
               subtitle: Text(
-                  "Peso: ${user.weight}Kg \t\t\t\t In data: ${user.date.day}/${user.date.month}/${user.date.year}"),
+                  "Peso: ${user.weight}Kg \t\t In data: ${DateFormat('dd/MM/yyyy').format(user.date)}"),
               trailing: IconButton(
                 icon: Icon(Icons.edit),
                 color: Colors.teal[300],
