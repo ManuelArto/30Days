@@ -1,7 +1,9 @@
+import 'package:TrentaGiorni/models/user.dart';
+import 'package:TrentaGiorni/providers/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import 'package:TrentaGiorni/models/user.dart';
 
 class UserCards extends StatelessWidget {
   final Size screenSize;
@@ -11,6 +13,7 @@ class UserCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<User> users = Provider.of<UsersProvider>(context).users;
     if (users.length == 0)
       return Expanded(
         child: Center(
