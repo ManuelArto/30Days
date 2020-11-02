@@ -23,10 +23,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.0
   flutter_local_notifications: ^3.0.1
   flutter_native_timezone: ^1.0.4
   intl: ^0.16.1
+  provider: ^4.3.2+2
   rxdart: ^0.24.1
 
 dev_dependencies:

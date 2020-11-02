@@ -1,19 +1,11 @@
-import 'package:TrentaGiorni/models/ReceivedNotification.dart';
-import 'package:TrentaGiorni/screens/insert_screen.dart';
+import 'package:TrentaGiorni/screens/user_screen.dart';
 import 'package:TrentaGiorni/widgets/users_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:TrentaGiorni/widgets/gradient_background.dart';
-import 'package:TrentaGiorni/helpers/notification_helper.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   static const routeName = "/homescreen";
-
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -41,10 +33,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add, color: Colors.black),
-          onPressed: () async => await notificationHelper.scheduleNotification()
-          // Navigator.of(context).pushNamed(InsertScreen.routeName),
-          ),
+        child: Icon(Icons.add, color: Colors.black),
+        onPressed: () async => Navigator.of(context)
+            .pushNamed(UserScreen.routeName, arguments: ""),
+      ),
     );
   }
 }
