@@ -1,6 +1,8 @@
+import 'package:TrentaGiorni/providers/users_provider.dart';
 import 'package:TrentaGiorni/widgets/search_queary.dart';
 import 'package:TrentaGiorni/widgets/user_cards.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserLists extends StatefulWidget {
   @override

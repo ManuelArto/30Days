@@ -2,7 +2,6 @@ import 'package:TrentaGiorni/providers/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'helpers/notification_helper.dart' as NotificationHelper;
 import 'models/received_notification.dart';
 import 'screens/home_screen.dart';
 import 'screens/user_screen.dart';
@@ -19,9 +18,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    initNotification();
     return ChangeNotifierProvider(
-      create: (context) => UsersProvider(),
+      create: (context) =>
+          UsersProvider(onNotificationInLowerVersions, onNotificationClick),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: '30 Days',
@@ -41,13 +40,6 @@ class _MyAppState extends State<MyApp> {
         },
       ),
     );
-  }
-
-  void initNotification() {
-    NotificationHelper.init();
-    NotificationHelper.setListenerForLowerVersions(
-        onNotificationInLowerVersions);
-    NotificationHelper.setOnNotificationClick(onNotificationClick);
   }
 
   void onNotificationInLowerVersions(

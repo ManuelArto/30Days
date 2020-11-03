@@ -76,13 +76,32 @@ Future<void> scheduleNotification(User user) async {
     android: androidChannelSpecifics,
   );
   await flutterLocalNotificationsPlugin.zonedSchedule(
-    0,
-    'scheduled title',
-    'scheduled body',
+    user.id,
+    'Reminder pesatura',
+    '${user.name} ${user.surname}',
     scheduleNotificationDateTime,
     platformChannelSpecifics,
     androidAllowWhileIdle: true,
     uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime,
   );
+}
+
+Future<void> deleteNotification(int id) async {
+  await flutterLocalNotificationsPlugin.cancel(id);
+}
+
+Future<void> showActiveNotification() async {
+  final List<ActiveNotification> activeNotifications =
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.getActiveNotifications();
+  print(activeNotifications);
+}
+
+Future<void> showPendingNotification() async {
+  final List<PendingNotificationRequest> pendingNotificationRequests =
+      await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+  print(pendingNotificationRequests);
 }

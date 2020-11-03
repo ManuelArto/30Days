@@ -1,13 +1,15 @@
-import 'package:TrentaGiorni/providers/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import 'package:TrentaGiorni/providers/users_provider.dart';
+import 'package:TrentaGiorni/models/user.dart';
+
 class UserScreen extends StatefulWidget {
   static const routeName = "/userScreen";
-  final String id;
+  final User user;
 
-  UserScreen(this.id);
+  UserScreen(this.user);
 
   @override
   _UserScreenState createState() => _UserScreenState();
@@ -40,21 +42,33 @@ class _UserScreenState extends State<UserScreen> {
     if (!_formKey.currentState.validate()) return;
     _formKey.currentState.save();
     _formData["date"] = selectedDate;
-    Provider.of<UsersProvider>(context, listen: false).insertUser(_formData);
+    if (widget.user == null)
+      Provider.of<UsersProvider>(context, listen: false).insertUser(_formData);
+    else
+      Provider.of<UsersProvider>(context, listen: false)
+          .editUser(widget.user.id, _formData);
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.user != null) {
+      _formData["name"] = widget.user.name;
+      _formData["surname"] = widget.user.surname;
+      _formData["weight"] = widget.user.weight;
+      selectedDate = widget.user.date;
+    }
     return Scaffold(
       appBar: AppBar(),
       body: Form(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ListTile(
               leading: const Icon(Icons.person),
               title: TextFormField(
+                initialValue: _formData["name"],
                 decoration: InputDecoration(
                   labelText: "Nome",
                 ),
@@ -66,6 +80,7 @@ class _UserScreenState extends State<UserScreen> {
             ListTile(
               leading: const Icon(Icons.person, color: Colors.white),
               title: TextFormField(
+                initialValue: _formData["surname"],
                 decoration: InputDecoration(
                   labelText: "Cognome",
                 ),
@@ -77,6 +92,7 @@ class _UserScreenState extends State<UserScreen> {
             ListTile(
               leading: const Icon(Icons.person, color: Colors.white),
               title: TextFormField(
+                initialValue: _formData["weight"]?.toString(),
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: "Peso",
@@ -100,9 +116,27 @@ class _UserScreenState extends State<UserScreen> {
                 ],
               ),
               trailing: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7.0)),
                 color: Colors.lightGreen[100],
                 onPressed: () => _selectDate(context),
                 child: Text('Select date'),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 30.0, left: 10.0),
+              child: FlatButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7.0)),
+                child: Text("Delete user"),
+                color: Colors.red[300],
+                onPressed: () async {
+                  if (await buildShowDialog(context)) {
+                    Provider.of<UsersProvider>(context, listen: false)
+                        .removeUser(widget.user.id);
+                    Navigator.of(context).pop();
+                  }
+                },
               ),
             ),
           ],
@@ -112,6 +146,31 @@ class _UserScreenState extends State<UserScreen> {
         onPressed: () => _submitForm(),
         child: Icon(Icons.save),
       ),
+    );
+  }
+
+  Future<bool> buildShowDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Conferma"),
+          content:
+              const Text("Sei sicuro di volere cancellare questo elemento?"),
+          actions: <Widget>[
+            FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text(
+                  "ELIMINA",
+                  style: TextStyle(color: Colors.red),
+                )),
+            FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text("ANNULLA"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

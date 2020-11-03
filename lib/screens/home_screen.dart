@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add, color: Colors.black),
         onPressed: () async => Navigator.of(context)
-            .pushNamed(UserScreen.routeName, arguments: ""),
+            .pushNamed(UserScreen.routeName, arguments: null),
       ),
     );
   }
