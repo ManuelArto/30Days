@@ -7,16 +7,16 @@ import 'package:TrentaGiorni/models/user.dart';
 
 class UserScreen extends StatefulWidget {
   static const routeName = "/userScreen";
-  final User user;
+  final int id;
+  DateTime selectedDate;
 
-  UserScreen(this.user);
+  UserScreen({this.id, this.selectedDate});
 
   @override
   _UserScreenState createState() => _UserScreenState();
 }
 
 class _UserScreenState extends State<UserScreen> {
-  DateTime selectedDate = DateTime.now();
   Map<String, dynamic> _formData = {
     "name": null,
     "surname": null,
@@ -25,39 +25,46 @@ class _UserScreenState extends State<UserScreen> {
   };
   final _formKey = GlobalKey<FormState>();
 
+  @override
+  void initState() {
+    super.initState();
+    if (widget.id != null) {
+      User user = Provider.of<UsersProvider>(context, listen: false)
+          .getUserById(widget.id);
+      _formData["name"] = user.name;
+      _formData["surname"] = user.surname;
+      _formData["weight"] = user.weight;
+      widget.selectedDate = user.date;
+    }
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: widget.selectedDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != widget.selectedDate)
       setState(() {
-        selectedDate = picked;
+        widget.selectedDate = picked;
       });
   }
 
   void _submitForm() {
     if (!_formKey.currentState.validate()) return;
     _formKey.currentState.save();
-    _formData["date"] = selectedDate;
-    if (widget.user == null)
+    _formData["date"] = widget.selectedDate;
+    if (widget.id == null)
       Provider.of<UsersProvider>(context, listen: false).insertUser(_formData);
     else
       Provider.of<UsersProvider>(context, listen: false)
-          .editUser(widget.user.id, _formData);
+          .editUser(widget.id, _formData);
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.user != null) {
-      _formData["name"] = widget.user.name;
-      _formData["surname"] = widget.user.surname;
-      _formData["weight"] = widget.user.weight;
-      selectedDate = widget.user.date;
-    }
     return Scaffold(
       appBar: AppBar(),
       body: Form(
@@ -111,7 +118,7 @@ class _UserScreenState extends State<UserScreen> {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(DateFormat("dd/MM/yyy").format(selectedDate)),
+                  Text(DateFormat("dd/MM/yyy").format(widget.selectedDate)),
                   Divider(color: Colors.grey[900])
                 ],
               ),
@@ -123,22 +130,23 @@ class _UserScreenState extends State<UserScreen> {
                 child: Text('Select date'),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 30.0, left: 10.0),
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7.0)),
-                child: Text("Delete user"),
-                color: Colors.red[300],
-                onPressed: () async {
-                  if (await buildShowDialog(context)) {
-                    Provider.of<UsersProvider>(context, listen: false)
-                        .removeUser(widget.user.id);
-                    Navigator.of(context).pop();
-                  }
-                },
+            if (widget.id != null)
+              Container(
+                margin: const EdgeInsets.only(top: 30.0, left: 10.0),
+                child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7.0)),
+                  child: Text("Delete user"),
+                  color: Colors.red[300],
+                  onPressed: () async {
+                    if (await buildShowDialog(context)) {
+                      Provider.of<UsersProvider>(context, listen: false)
+                          .removeUser(widget.id);
+                      Navigator.of(context).pop();
+                    }
+                  },
+                ),
               ),
-            ),
           ],
         ),
       ),

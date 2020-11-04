@@ -1,5 +1,7 @@
 import 'package:TrentaGiorni/providers/users_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 import 'models/received_notification.dart';
@@ -7,7 +9,7 @@ import 'screens/home_screen.dart';
 import 'screens/user_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -18,6 +20,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return ChangeNotifierProvider(
       create: (context) =>
           UsersProvider(onNotificationInLowerVersions, onNotificationClick),
@@ -35,7 +38,11 @@ class _MyAppState extends State<MyApp> {
               return MaterialPageRoute(builder: (context) => HomeScreen());
             case UserScreen.routeName:
               return MaterialPageRoute(
-                  builder: (context) => UserScreen(settings.arguments));
+                  builder: (context) => UserScreen(
+                        id: (settings.arguments as Map)["id"],
+                        selectedDate:
+                            (settings.arguments as Map)["selectedDate"],
+                      ));
           }
         },
       ),

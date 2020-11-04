@@ -4,8 +4,22 @@ import 'package:flutter/material.dart';
 
 import 'package:TrentaGiorni/widgets/gradient_background.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const routeName = "/homescreen";
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  DateTime selectedDate = DateTime.now();
+
+  void selectDate(DateTime selectedDate) {
+    setState(() {
+      this.selectedDate = selectedDate;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -28,15 +42,17 @@ class HomeScreen extends StatelessWidget {
           ),
           Positioned(
             top: screenSize.height * 0.17,
-            child: UsersController(screenSize),
+            child: UsersController(screenSize, selectDate),
           )
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add, color: Colors.black),
-        onPressed: () async => Navigator.of(context)
-            .pushNamed(UserScreen.routeName, arguments: null),
-      ),
+          child: Icon(Icons.add, color: Colors.black),
+          onPressed: () async {
+            print(selectedDate);
+            Navigator.of(context).pushNamed(UserScreen.routeName,
+                arguments: {"id": null, "selectedDate": selectedDate});
+          }),
     );
   }
 }

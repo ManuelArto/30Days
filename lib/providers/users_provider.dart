@@ -14,6 +14,10 @@ class UsersProvider with ChangeNotifier {
 
   get users => List<User>.from(_users);
 
+  User getUserById(int id){
+    return _users.firstWhere((user) => user.id == id);
+  }
+
   UsersProvider(
       Function onNotificationInLowerVersions, Function onNotificationClick) {
     NotificationHelper.init();
@@ -24,14 +28,15 @@ class UsersProvider with ChangeNotifier {
   }
 
   void getUsers() async {
-      final prefs = await SharedPreferences.getInstance();
-      Set<String> keys = prefs.getKeys();
-      print("keys: $keys");
-      keys.forEach((key) {
-        Map<String, dynamic> jsonData = json.decode(prefs.getString(key));
-        print(jsonData);
-        _users.add(User.fromJson(jsonData));
-      });
+    final prefs = await SharedPreferences.getInstance();
+    Set<String> keys = prefs.getKeys();
+    print("keys: $keys");
+    keys.forEach((key) {
+      Map<String, dynamic> jsonData = json.decode(prefs.getString(key));
+      print(jsonData);
+      _users.add(User.fromJson(jsonData));
+    });
+    notifyListeners();
   }
 
   void insertUser(Map data) async {

@@ -29,12 +29,13 @@ dependencies:
   provider: ^4.3.2+2
   rxdart: ^0.24.1
   shared_preferences: ^0.5.12+2
+  table_calendar: ^2.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.8.1
   change_app_package_name: ^0.1.2
+  flutter_launcher_icons: ^0.8.1
 
 flutter_icons:
   android: true

@@ -1,10 +1,8 @@
-import 'package:TrentaGiorni/providers/users_provider.dart';
 import 'package:TrentaGiorni/screens/user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:TrentaGiorni/models/user.dart';
-import 'package:provider/provider.dart';
 
 class UserCard extends StatelessWidget {
   const UserCard({
@@ -39,8 +37,8 @@ class UserCard extends StatelessWidget {
         trailing: IconButton(
           icon: Icon(Icons.edit),
           color: Colors.teal[300],
-          onPressed: () => Navigator.of(context)
-              .pushNamed(UserScreen.routeName, arguments: user),
+          onPressed: () => Navigator.of(context).pushNamed(UserScreen.routeName,
+              arguments: {"id": user.id, "selectDate": user.date}),
         ),
       ),
     );

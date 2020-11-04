@@ -1,6 +1,5 @@
 import 'package:TrentaGiorni/widgets/user_calendar.dart';
 import 'package:TrentaGiorni/widgets/user_lists.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class UsersController extends StatefulWidget {
@@ -8,8 +7,9 @@ class UsersController extends StatefulWidget {
   _UsersControllerState createState() => _UsersControllerState();
 
   final Size screenSize;
+  final Function selectDate;
 
-  UsersController(this.screenSize);
+  UsersController(this.screenSize, this.selectDate);
 }
 
 class _UsersControllerState extends State<UsersController>
@@ -19,6 +19,7 @@ class _UsersControllerState extends State<UsersController>
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() => widget.selectDate(DateTime.now()));
     super.initState();
   }
 
@@ -51,7 +52,7 @@ class _UsersControllerState extends State<UsersController>
           child: TabBarView(
             children: [
               UserLists(widget.screenSize),
-              UserCalendar(),
+              UserCalendar(widget.selectDate),
             ],
             controller: _tabController,
           ),
