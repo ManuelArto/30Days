@@ -45,7 +45,7 @@ class _UsersControllerState extends State<UsersController>
             controller: _tabController,
           ),
         ),
-        SizedBox(height: widget.screenSize.height * 0.01),
+        SizedBox(height: widget.screenSize.height * 0.03),
         Container(
           height: widget.screenSize.height * 0.7,
           width: widget.screenSize.width,

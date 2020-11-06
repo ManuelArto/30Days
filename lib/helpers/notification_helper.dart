@@ -68,7 +68,7 @@ Future<void> scheduleNotification(User user) async {
   // var scheduleNotificationDateTime = tz.TZDateTime.now(tz.local)
   // .add(user.nextDate.difference(DateTime.now()));
   var scheduleNotificationDateTime =
-      tz.TZDateTime.now(tz.local).add(Duration(seconds: 5));
+      tz.TZDateTime.now(tz.local).add(Duration(hours: 1));
   var androidChannelSpecifics = AndroidNotificationDetails(
     'CHANNEL_ID 1',
     'CHANNEL_NAME 1',
@@ -89,7 +89,8 @@ Future<void> scheduleNotification(User user) async {
     androidAllowWhileIdle: true,
     uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime,
-    payload: json.encode({"id": user.id, "selectedDate": user.nextDate.toIso8601String()}),
+    payload: json.encode(
+        {"id": user.id, "selectedDate": user.nextDate.toIso8601String()}),
   );
 }
 
@@ -103,13 +104,21 @@ Future<List<ActiveNotification>> showActiveNotifications() async {
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()
           ?.getActiveNotifications();
-  print("ActiveNotifications: $activeNotifications");
+  print("Active notifications");
+  activeNotifications.forEach((notification) {
+    print(
+        "${notification.body} ${notification.channelId} ${notification.id} ${notification.title}");
+  });
   return activeNotifications;
 }
 
 Future<List<PendingNotificationRequest>> showPendingNotifications() async {
   final List<PendingNotificationRequest> pendingNotificationRequests =
       await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-  print("PendingNotifications: $pendingNotificationRequests");
+  print("Pending notifications");
+  pendingNotificationRequests.forEach((notification) {
+    print(
+        "${notification.body} ${notification.id} ${notification.payload} ${notification.title}");
+  });
   return pendingNotificationRequests;
 }
