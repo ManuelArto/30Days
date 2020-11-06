@@ -8,7 +8,7 @@ class ActiveNotificationsScreen extends StatelessWidget {
   UsersProvider usersProvider;
   List activeNotifications, pendingNotifications;
 
-  void retrieveNotifications() async {
+  Future<void> retrieveNotifications() async {
     activeNotifications = await usersProvider.getActiveNotifications();
     pendingNotifications = await usersProvider.getPendingNotifications();
   }
@@ -16,9 +16,27 @@ class ActiveNotificationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     usersProvider = Provider.of<UsersProvider>(context, listen: false);
-    retrieveNotifications();
     return Scaffold(
-      body: Center(child: Text("Notifications")),
+      body: FutureBuilder(
+        future: retrieveNotifications(),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: pendingNotifications.length,
+                    itemBuilder: (context, index) {
+                      final notification = pendingNotifications[index];
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 5.0),
+                        child: ListTile(
+                          tileColor: Colors.red[100],
+                          title: Text(notification.payload),
+                          trailing: Text(index.toString()),
+                        ),
+                      );
+                    },
+                  ),
+      ),
     );
   }
 }

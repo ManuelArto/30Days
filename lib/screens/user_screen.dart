@@ -87,7 +87,7 @@ class _UserScreenState extends State<UserScreen> {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.person, color: Colors.white),
+              leading: const Icon(Icons.person, color: Colors.transparent),
               title: TextFormField(
                 initialValue: _formData["surname"],
                 decoration: InputDecoration(
@@ -99,7 +99,7 @@ class _UserScreenState extends State<UserScreen> {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.person, color: Colors.white),
+              leading: const Icon(Icons.person, color: Colors.transparent),
               title: TextFormField(
                 initialValue: _formData["weight"]?.toString(),
                 keyboardType: TextInputType.number,

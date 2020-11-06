@@ -19,7 +19,15 @@ class _UsersControllerState extends State<UsersController>
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(() => widget.selectDate(DateTime.now()));
+    _tabController.addListener(() {
+      final DateTime now = DateTime.now();
+      DateTime selectedDate = now.subtract(Duration(
+        hours: now.hour,
+        minutes: now.minute,
+        seconds: now.second,
+      ));
+      widget.selectDate(selectedDate);
+    });
     super.initState();
   }
 
