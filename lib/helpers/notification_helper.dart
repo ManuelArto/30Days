@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:TrentaGiorni/models/user.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -62,8 +65,10 @@ Future<void> showNotification() async {
 }
 
 Future<void> scheduleNotification(User user) async {
-  var scheduleNotificationDateTime = tz.TZDateTime.now(tz.local)
-      .add(user.date.add(Duration(days: 2)).difference(DateTime.now()));
+  // var scheduleNotificationDateTime = tz.TZDateTime.now(tz.local)
+  // .add(user.nextDate.difference(DateTime.now()));
+  var scheduleNotificationDateTime =
+      tz.TZDateTime.now(tz.local).add(Duration(seconds: 5));
   var androidChannelSpecifics = AndroidNotificationDetails(
     'CHANNEL_ID 1',
     'CHANNEL_NAME 1',
@@ -77,13 +82,14 @@ Future<void> scheduleNotification(User user) async {
   );
   await flutterLocalNotificationsPlugin.zonedSchedule(
     user.id,
-    'Reminder pesatura',
-    '${user.name} ${user.surname}',
+    'Promemoria Pesatura',
+    '${user.name} ${user.surname} \t\t ${DateFormat('dd/MM/yyyy').format(user.date)} - ${DateFormat('dd/MM/yyyy').format(user.nextDate)}',
     scheduleNotificationDateTime,
     platformChannelSpecifics,
     androidAllowWhileIdle: true,
     uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime,
+    payload: json.encode({"id": user.id, "selectedDate": user.nextDate.toIso8601String()}),
   );
 }
 

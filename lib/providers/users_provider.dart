@@ -14,10 +14,12 @@ class UsersProvider with ChangeNotifier {
 
   get users => List<User>.from(_users);
 
-  Future<List> getActiveNotifications() async => await NotificationHelper.showActiveNotifications(); 
-  Future<List> getPendingNotifications() async => await NotificationHelper.showPendingNotifications(); 
+  Future<List> getActiveNotifications() async =>
+      await NotificationHelper.showActiveNotifications();
+  Future<List> getPendingNotifications() async =>
+      await NotificationHelper.showPendingNotifications();
 
-  User getUserById(int id){
+  User getUserById(int id) {
     return _users.firstWhere((user) => user.id == id);
   }
 
@@ -56,15 +58,17 @@ class UsersProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(user.id.toString(), json.encode(user.toJson()));
 
-    // NotificationHelper.scheduleNotification(user);
+    NotificationHelper.scheduleNotification(user);
 
     notifyListeners();
   }
 
   void editUser(int id, Map data) async {
     User user = _users.firstWhere((user) => user.id == id);
-    // if (user.date != data["date"])
-    // NotificationHelper.scheduleNotification(user);
+
+    if (user.date != data["date"])
+      NotificationHelper.scheduleNotification(user);
+      
     user.update(data);
 
     final prefs = await SharedPreferences.getInstance();
@@ -75,7 +79,8 @@ class UsersProvider with ChangeNotifier {
 
   void removeUser(int id) async {
     _users.removeWhere((user) => user.id == id);
-    // NotificationHelper.deleteNotification(id);
+
+    NotificationHelper.deleteNotification(id);
 
     final prefs = await SharedPreferences.getInstance();
     prefs.remove(id.toString());

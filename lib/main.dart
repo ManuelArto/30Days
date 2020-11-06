@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:TrentaGiorni/providers/users_provider.dart';
 import 'package:TrentaGiorni/screens/active_notifications_screen.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +47,8 @@ class _MyAppState extends State<MyApp> {
                             (settings.arguments as Map)["selectedDate"],
                       ));
             case ActiveNotificationsScreen.routeName:
-              return MaterialPageRoute(builder: (context) => ActiveNotificationsScreen());
+              return MaterialPageRoute(
+                  builder: (context) => ActiveNotificationsScreen());
           }
         },
       ),
@@ -59,6 +62,10 @@ class _MyAppState extends State<MyApp> {
 
   void onNotificationClick(String payload) {
     print('Payload $payload');
-    // Navigator.of(context).pushNamed(UserScreen.routeName, arguments: pa)
+    Map<String, dynamic> payloadData = json.decode(payload);
+    Navigator.of(context).pushNamed(UserScreen.routeName, arguments: {
+      "id": payloadData['id'],
+      "selectedDate": DateTime.parse(payloadData["selectedDate"])
+    });
   }
 }
