@@ -65,11 +65,11 @@ class UsersProvider with ChangeNotifier {
 
   void editUser(int id, Map data) async {
     User user = _users.firstWhere((user) => user.id == id);
-
-    if (user.date != data["date"])
-      NotificationHelper.scheduleNotification(user);
-      
+    DateTime initialDate = user.date;
     user.update(data);
+
+    if (initialDate != data["date"])
+      NotificationHelper.scheduleNotification(user);
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(user.id.toString(), json.encode(user.toJson()));

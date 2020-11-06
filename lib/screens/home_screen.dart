@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void selectDate(DateTime selectedDate) {
@@ -24,6 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime now = DateTime.now();
+    selectedDate = now.subtract(
+        Duration(hours: now.hour, minutes: now.minute, seconds: now.second));
     final screenSize = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -61,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add, color: Colors.black),
           onPressed: () {
-            print(selectedDate);
             Navigator.of(context).pushNamed(UserScreen.routeName,
                 arguments: {"id": null, "selectedDate": selectedDate});
           },

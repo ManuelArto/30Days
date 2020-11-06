@@ -65,10 +65,11 @@ Future<void> showNotification() async {
 }
 
 Future<void> scheduleNotification(User user) async {
-  // var scheduleNotificationDateTime = tz.TZDateTime.now(tz.local)
-  // .add(user.nextDate.difference(DateTime.now()));
-  var scheduleNotificationDateTime =
-      tz.TZDateTime.now(tz.local).add(Duration(hours: 1));
+  var scheduleNotificationDateTime = tz.TZDateTime.from(user.nextDate, tz.local)
+      .add(Duration(hours: 7, minutes: 30));
+  print(user.nextDate);
+  print(scheduleNotificationDateTime);
+  // var scheduleNotificationDateTime = tz.TZDateTime.now(tz.local).add(Duration(seconds: 2));
   var androidChannelSpecifics = AndroidNotificationDetails(
     'CHANNEL_ID 1',
     'CHANNEL_NAME 1',
@@ -89,8 +90,10 @@ Future<void> scheduleNotification(User user) async {
     androidAllowWhileIdle: true,
     uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime,
-    payload: json.encode(
-        {"id": user.id, "selectedDate": user.nextDate.toIso8601String()}),
+    payload: json.encode({
+      "id": user.id,
+      "selectedDate": user.nextDate.toIso8601String(),
+    }),
   );
 }
 

@@ -40,7 +40,7 @@ class _UsersControllerState extends State<UsersController>
           child: TabBar(
             tabs: [
               Tab(text: "Lista Utenti", icon: Icon(Icons.list)),
-              Tab(text: "Calendario Prenotazioni", icon: Icon(Icons.calendar_today)),
+              Tab(text: "Prenotazioni", icon: Icon(Icons.calendar_today)),
             ],
             controller: _tabController,
           ),

@@ -8,7 +8,7 @@ import 'package:TrentaGiorni/models/user.dart';
 class UserScreen extends StatefulWidget {
   static const routeName = "/userScreen";
   final int id;
-  DateTime selectedDate;
+  final DateTime selectedDate;
 
   UserScreen({this.id, this.selectedDate});
 
@@ -17,6 +17,7 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  DateTime selectedDate;
   Map<String, dynamic> _formData = {
     "name": null,
     "surname": null,
@@ -28,33 +29,34 @@ class _UserScreenState extends State<UserScreen> {
   @override
   void initState() {
     super.initState();
+    selectedDate = widget.selectedDate;
     if (widget.id != null) {
       User user = Provider.of<UsersProvider>(context, listen: false)
           .getUserById(widget.id);
       _formData["name"] = user.name;
       _formData["surname"] = user.surname;
       _formData["weight"] = user.weight;
-      widget.selectedDate = user.date;
+      selectedDate = user.date;
     }
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate() async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: widget.selectedDate,
+      initialDate: selectedDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != widget.selectedDate)
+    if (picked != null && picked != selectedDate)
       setState(() {
-        widget.selectedDate = picked;
+        selectedDate = picked;
       });
   }
 
   void _submitForm() {
     if (!_formKey.currentState.validate()) return;
     _formKey.currentState.save();
-    _formData["date"] = widget.selectedDate;
+    _formData["date"] = selectedDate;
     if (widget.id == null)
       Provider.of<UsersProvider>(context, listen: false).insertUser(_formData);
     else
@@ -118,7 +120,7 @@ class _UserScreenState extends State<UserScreen> {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(DateFormat("dd/MM/yyy").format(widget.selectedDate)),
+                  Text(DateFormat("dd/MM/yyy").format(selectedDate)),
                   Divider(color: Colors.grey[900])
                 ],
               ),
@@ -126,7 +128,7 @@ class _UserScreenState extends State<UserScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(7.0)),
                 color: Colors.lightGreen[100],
-                onPressed: () => _selectDate(context),
+                onPressed: _selectDate,
                 child: Text('Select date'),
               ),
             ),

@@ -131,8 +131,8 @@ class _UserCalendarState extends State<UserCalendar>
         },
       ),
       onDaySelected: (date, events, holidays) {
-        print('CALLBACK: _onDaySelected');
-        widget.selectDate(date);
+        print('CALLBACK: _onDaySelected, date: $date');
+        widget.selectDate(date.subtract(Duration(hours: 12)));
         setState(() {
           _selectedEvents = events;
         });
@@ -171,7 +171,10 @@ class _UserCalendarState extends State<UserCalendar>
       itemBuilder: (context, index) {
         User user = _selectedEvents[index];
         return UserCard(
-            usersLength: _selectedEvents.length, index: index, user: user);
+          usersLength: _selectedEvents.length,
+          index: index,
+          user: user,
+        );
       },
     );
 

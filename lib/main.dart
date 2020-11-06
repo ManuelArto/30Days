@@ -60,12 +60,13 @@ class _MyAppState extends State<MyApp> {
     print('Notification Received ${receivedNotification.id}');
   }
 
-  void onNotificationClick(String payload) {
-    print('Payload $payload');
+  Future onNotificationClick(String payload) async{
     Map<String, dynamic> payloadData = json.decode(payload);
-    Navigator.of(context).pushNamed(UserScreen.routeName, arguments: {
-      "id": payloadData['id'],
-      "selectedDate": DateTime.parse(payloadData["selectedDate"])
-    });
+    print('Payload $payloadData');
+    // CONTEXT ERROR 
+    // await Navigator.of(context).pushNamed(UserScreen.routeName, arguments: {
+    //   "id": payloadData['id'],
+    //   "selectedDate": DateTime.parse(payloadData["selectedDate"])
+    // });
   }
 }
