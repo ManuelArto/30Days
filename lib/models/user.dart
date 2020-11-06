@@ -11,8 +11,13 @@ class User {
       @required this.name,
       @required this.surname,
       @required this.weight,
-      @required this.date,
-      @required this.nextDate});
+      @required this.date}) {
+    nextDate = date.add(Duration(days: 30));
+    nextDate = nextDate.subtract(Duration(
+        hours: nextDate.hour,
+        minutes: nextDate.minute,
+        seconds: nextDate.second));
+  }
 
   User.fromJson(Map<String, dynamic> jsonData)
       : id = jsonData["id"],
@@ -37,5 +42,9 @@ class User {
     weight = data["weight"];
     date = data["date"];
     nextDate = date.add(Duration(days: 30));
+    nextDate = nextDate.subtract(Duration(
+        hours: nextDate.hour,
+        minutes: nextDate.minute,
+        seconds: nextDate.second));
   }
 }

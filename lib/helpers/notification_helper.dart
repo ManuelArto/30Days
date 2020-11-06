@@ -93,6 +93,7 @@ Future<void> scheduleNotification(User user) async {
     payload: json.encode({
       "id": user.id,
       "selectedDate": user.nextDate.toIso8601String(),
+      "dateNotification": scheduleNotificationDateTime.toIso8601String(),
     }),
   );
 }

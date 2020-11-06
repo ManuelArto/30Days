@@ -41,16 +41,19 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   Future<void> _selectDate() async {
-    final DateTime picked = await showDatePicker(
+    DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2000),
+      firstDate: DateTime.now().subtract(Duration(days: 28)),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
+      picked = picked.subtract(Duration(
+          hours: picked.hour, minutes: picked.minute, seconds: picked.second));
       setState(() {
         selectedDate = picked;
       });
+    }
   }
 
   void _submitForm() {

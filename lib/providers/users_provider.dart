@@ -51,7 +51,6 @@ class UsersProvider with ChangeNotifier {
       surname: data['surname'],
       weight: data['weight'],
       date: data['date'],
-      nextDate: data['date'].add(Duration(days: 30)),
     );
     _users.add(user);
 
@@ -67,9 +66,12 @@ class UsersProvider with ChangeNotifier {
     User user = _users.firstWhere((user) => user.id == id);
     DateTime initialDate = user.date;
     user.update(data);
+    print(user.toJson());
 
-    if (initialDate != data["date"])
+    if (initialDate.compareTo(data["date"]) != 0) {
+      NotificationHelper.deleteNotification(user.id);
       NotificationHelper.scheduleNotification(user);
+    }
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(user.id.toString(), json.encode(user.toJson()));

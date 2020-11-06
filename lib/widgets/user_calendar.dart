@@ -71,7 +71,7 @@ class _UserCalendarState extends State<UserCalendar>
       events: _events,
       initialCalendarFormat: CalendarFormat.month,
       formatAnimation: FormatAnimation.slide,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
+      startingDayOfWeek: StartingDayOfWeek.monday,
       availableGestures: AvailableGestures.all,
       availableCalendarFormats: const {
         CalendarFormat.month: '',
@@ -132,7 +132,7 @@ class _UserCalendarState extends State<UserCalendar>
       ),
       onDaySelected: (date, events, holidays) {
         print('CALLBACK: _onDaySelected, date: $date');
-        widget.selectDate(date.subtract(Duration(hours: 12)));
+        widget.selectDate(date.subtract(Duration(hours: 12)).toLocal());
         setState(() {
           _selectedEvents = events;
         });
