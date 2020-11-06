@@ -39,8 +39,8 @@ class _UsersControllerState extends State<UsersController>
           width: widget.screenSize.width,
           child: TabBar(
             tabs: [
-              Tab(text: "Users List", icon: Icon(Icons.list)),
-              Tab(text: "Users Calendar", icon: Icon(Icons.calendar_today)),
+              Tab(text: "Lista Utenti", icon: Icon(Icons.list)),
+              Tab(text: "Calendario Prenotazioni", icon: Icon(Icons.calendar_today)),
             ],
             controller: _tabController,
           ),

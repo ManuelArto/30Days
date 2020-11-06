@@ -1,4 +1,5 @@
 import 'package:TrentaGiorni/screens/user_screen.dart';
+import 'package:TrentaGiorni/widgets/drawer_widget.dart';
 import 'package:TrentaGiorni/widgets/users_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   DateTime selectedDate = DateTime.now();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void selectDate(DateTime selectedDate) {
     setState(() {
@@ -23,36 +25,48 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Stack(
-        children: [
-          GradienBackGround(height: screenSize.height * 0.35),
-          Positioned(
-            top: screenSize.height * 0.08,
-            width: screenSize.width,
-            child: Text(
-              "30 Days",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.amber[50],
-                fontSize: 34,
-                fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: Scaffold(
+        key: _scaffoldKey,
+        drawer: DrawerWidget(),
+        body: Stack(
+          children: [
+            GradienBackGround(height: screenSize.height * 0.35),
+            Positioned(
+              top: screenSize.height * 0.03,
+              child: IconButton(
+                  icon: Icon(Icons.menu),
+                  color: Colors.white,
+                  onPressed: () => _scaffoldKey.currentState.openDrawer()),
+            ),
+            Positioned(
+              top: screenSize.height * 0.08,
+              width: screenSize.width,
+              child: Text(
+                "30 Days",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.amber[50],
+                  fontSize: 34,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          Positioned(
-            top: screenSize.height * 0.17,
-            child: UsersController(screenSize, selectDate),
-          )
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
+            Positioned(
+              top: screenSize.height * 0.17,
+              child: UsersController(screenSize, selectDate),
+            )
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add, color: Colors.black),
-          onPressed: () async {
+          onPressed: () {
             print(selectedDate);
             Navigator.of(context).pushNamed(UserScreen.routeName,
                 arguments: {"id": null, "selectedDate": selectedDate});
-          }),
+          },
+        ),
+      ),
     );
   }
 }

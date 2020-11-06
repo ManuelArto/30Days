@@ -4,21 +4,23 @@ class User {
   int id;
   String name, surname;
   double weight;
-  DateTime date;
+  DateTime date, nextDate;
 
   User(
       {@required this.id,
       @required this.name,
       @required this.surname,
       @required this.weight,
-      @required this.date});
+      @required this.date,
+      @required this.nextDate});
 
   User.fromJson(Map<String, dynamic> jsonData)
       : id = jsonData["id"],
         name = jsonData["name"],
         surname = jsonData["surname"],
         weight = jsonData["weight"],
-        date = DateTime.parse(jsonData["date"]);
+        date = DateTime.parse(jsonData["date"]),
+        nextDate = DateTime.parse(jsonData["nextDate"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -26,6 +28,7 @@ class User {
         "surname": surname,
         "weight": weight,
         "date": date.toIso8601String(),
+        "nextDate": nextDate.toIso8601String(),
       };
 
   void update(Map data) {
@@ -33,5 +36,6 @@ class User {
     surname = data["surname"];
     weight = data["weight"];
     date = data["date"];
+    nextDate = date.add(Duration(days: 30));
   }
 }

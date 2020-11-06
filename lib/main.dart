@@ -1,4 +1,5 @@
 import 'package:TrentaGiorni/providers/users_provider.dart';
+import 'package:TrentaGiorni/screens/active_notifications_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -43,6 +44,8 @@ class _MyAppState extends State<MyApp> {
                         selectedDate:
                             (settings.arguments as Map)["selectedDate"],
                       ));
+            case ActiveNotificationsScreen.routeName:
+              return MaterialPageRoute(builder: (context) => ActiveNotificationsScreen());
           }
         },
       ),

@@ -1,4 +1,3 @@
-import 'package:TrentaGiorni/screens/user_screen.dart';
 import 'package:TrentaGiorni/widgets/user_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,10 +41,10 @@ class _UserCalendarState extends State<UserCalendar>
     final List<User> users = _usersProvider.users;
     _events = Map();
     users.forEach((user) {
-      if (_events.keys.contains(user.date))
-        _events[user.date].add(user);
+      if (_events.keys.contains(user.nextDate))
+        _events[user.nextDate].add(user);
       else
-        _events[user.date] = [user];
+        _events[user.nextDate] = [user];
     });
     final _selectedDay = DateTime.now();
     _selectedEvents = _events[_selectedDay] ?? [];

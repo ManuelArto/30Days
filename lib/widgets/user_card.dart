@@ -18,10 +18,10 @@ class UserCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.only(
-          top: 0,
+          top: 5,
           left: 10.0,
           right: 10.0,
-          bottom: index + 1 == usersLength ? 100.0 : 7.0),
+          bottom: index + 1 == usersLength ? 400.0 : 7.0),
       elevation: 4,
       shadowColor: Colors.green[300],
       shape: RoundedRectangleBorder(
@@ -33,7 +33,7 @@ class UserCard extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
         ),
         subtitle: Text(
-            "Peso: ${user.weight}Kg \t\t In data: ${DateFormat('dd/MM/yyyy').format(user.date)}"),
+            'Peso: ${user.weight}Kg \t\t ${DateFormat('dd/MM/yyyy').format(user.date)} - ${DateFormat('dd/MM/yyyy').format(user.nextDate)}'),
         trailing: IconButton(
           icon: Icon(Icons.edit),
           color: Colors.teal[300],

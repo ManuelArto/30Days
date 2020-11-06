@@ -62,8 +62,8 @@ Future<void> showNotification() async {
 }
 
 Future<void> scheduleNotification(User user) async {
-  var scheduleNotificationDateTime =
-      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10));
+  var scheduleNotificationDateTime = tz.TZDateTime.now(tz.local)
+      .add(user.date.add(Duration(days: 2)).difference(DateTime.now()));
   var androidChannelSpecifics = AndroidNotificationDetails(
     'CHANNEL_ID 1',
     'CHANNEL_NAME 1',
@@ -91,17 +91,19 @@ Future<void> deleteNotification(int id) async {
   await flutterLocalNotificationsPlugin.cancel(id);
 }
 
-Future<void> showActiveNotification() async {
+Future<List<ActiveNotification>> showActiveNotifications() async {
   final List<ActiveNotification> activeNotifications =
       await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()
           ?.getActiveNotifications();
-  print(activeNotifications);
+  print("ActiveNotifications: $activeNotifications");
+  return activeNotifications;
 }
 
-Future<void> showPendingNotification() async {
+Future<List<PendingNotificationRequest>> showPendingNotifications() async {
   final List<PendingNotificationRequest> pendingNotificationRequests =
       await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-  print(pendingNotificationRequests);
+  print("PendingNotifications: $pendingNotificationRequests");
+  return pendingNotificationRequests;
 }

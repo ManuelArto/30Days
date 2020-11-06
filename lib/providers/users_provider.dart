@@ -14,6 +14,9 @@ class UsersProvider with ChangeNotifier {
 
   get users => List<User>.from(_users);
 
+  Future<List> getActiveNotifications() async => await NotificationHelper.showActiveNotifications(); 
+  Future<List> getPendingNotifications() async => await NotificationHelper.showPendingNotifications(); 
+
   User getUserById(int id){
     return _users.firstWhere((user) => user.id == id);
   }
@@ -46,6 +49,7 @@ class UsersProvider with ChangeNotifier {
       surname: data['surname'],
       weight: data['weight'],
       date: data['date'],
+      nextDate: data['date'].add(Duration(days: 30)),
     );
     _users.add(user);
 
