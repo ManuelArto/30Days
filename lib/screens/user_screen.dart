@@ -41,10 +41,11 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   Future<void> _selectDate() async {
+    final DateTime firstDate = DateTime.now().subtract(Duration(days: 28));
     DateTime picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime.now().subtract(Duration(days: 28)),
+      initialDate: selectedDate.isBefore(firstDate) ? firstDate : selectedDate,
+      firstDate: firstDate,
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != selectedDate) {
