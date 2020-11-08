@@ -43,7 +43,7 @@ class User {
         "date": date.toIso8601String(),
         "nextDate": nextDate.toIso8601String(),
         "notificationTimeHours": notificationTime.hour,
-        "noiticationTimeMinutes": notificationTime.minute,
+        "notificationTimeMinutes": notificationTime.minute,
       };
 
   void update(Map data) {
