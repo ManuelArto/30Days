@@ -51,6 +51,8 @@ class UsersProvider with ChangeNotifier {
       surname: data['surname'],
       weight: data['weight'],
       date: data['date'],
+      waitTime: data["waitTime"],
+      notificationTime: data["notificationTime"],
     );
     _users.add(user);
 
@@ -64,11 +66,11 @@ class UsersProvider with ChangeNotifier {
 
   void editUser(int id, Map data) async {
     User user = _users.firstWhere((user) => user.id == id);
-    DateTime initialDate = user.date;
+    DateTime initialNextDate = user.nextDate;
+    TimeOfDay initialNotificationTime = user.notificationTime;
     user.update(data);
-    print(user.toJson());
 
-    if (initialDate.compareTo(data["date"]) != 0) {
+    if (initialNextDate.compareTo(user.nextDate) != 0 || initialNotificationTime != user.notificationTime) {
       NotificationHelper.deleteNotification(user.id);
       NotificationHelper.scheduleNotification(user);
     }

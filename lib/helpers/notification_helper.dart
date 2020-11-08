@@ -65,8 +65,11 @@ Future<void> showNotification() async {
 }
 
 Future<void> scheduleNotification(User user) async {
-  var scheduleNotificationDateTime = tz.TZDateTime.from(user.nextDate, tz.local)
-      .add(Duration(hours: 7, minutes: 30));
+  var scheduleNotificationDateTime =
+      tz.TZDateTime.from(user.nextDate, tz.local).add(Duration(
+    hours: user.notificationTime.hour,
+    minutes: user.notificationTime.minute,
+  ));
   print(user.nextDate);
   print(scheduleNotificationDateTime);
   // var scheduleNotificationDateTime = tz.TZDateTime.now(tz.local).add(Duration(seconds: 2));

@@ -132,8 +132,7 @@ class _UserCalendarState extends State<UserCalendar>
       ),
       onDaySelected: (date, events, holidays) {
         print('CALLBACK: _onDaySelected, date: $date');
-        if (date.isAfter(DateTime.now().subtract(Duration(days: 28))))
-          widget.selectDate(date.subtract(Duration(hours: 12)).toLocal());
+        widget.selectDate(date.subtract(Duration(hours: 12)).toLocal());
         setState(() {
           _selectedEvents = events;
         });

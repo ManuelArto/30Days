@@ -22,7 +22,7 @@ class SearchQuery extends StatelessWidget {
         ),
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.search, color: Colors.grey),
-          hintText: "Search Users",
+          hintText: "Cerca Utenti",
           hintStyle: TextStyle(color: Colors.grey),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.white, width: 0),
