@@ -1,2 +1,1 @@
-- Quando vuoi essere notificato?
-- Dopo quanto vuole pesarlo?
+- store last peso 

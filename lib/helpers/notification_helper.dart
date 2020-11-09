@@ -70,8 +70,7 @@ Future<void> scheduleNotification(User user) async {
     hours: user.notificationTime.hour,
     minutes: user.notificationTime.minute,
   ));
-  print(user.nextDate);
-  print(scheduleNotificationDateTime);
+  print("Notification: $scheduleNotificationDateTime");
   // var scheduleNotificationDateTime = tz.TZDateTime.now(tz.local).add(Duration(seconds: 2));
   var androidChannelSpecifics = AndroidNotificationDetails(
     'CHANNEL_ID 1',

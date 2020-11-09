@@ -20,6 +20,8 @@ class User {
       hours: nextDate.hour,
       minutes: nextDate.minute,
       seconds: nextDate.second,
+      milliseconds: nextDate.millisecond,
+      microseconds: nextDate.microsecond,
     ));
   }
 
@@ -54,8 +56,11 @@ class User {
     notificationTime = data["notificationTime"];
     nextDate = date.add(Duration(days: data["waitTime"]));
     nextDate = nextDate.subtract(Duration(
-        hours: nextDate.hour,
-        minutes: nextDate.minute,
-        seconds: nextDate.second));
+      hours: nextDate.hour,
+      minutes: nextDate.minute,
+      seconds: nextDate.second,
+      milliseconds: nextDate.millisecond,
+      microseconds: nextDate.microsecond,
+    ));
   }
 }

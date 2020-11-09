@@ -46,6 +46,7 @@ class _UserCalendarState extends State<UserCalendar>
       else
         _events[user.nextDate] = [user];
     });
+    print(_events);
     final _selectedDay = DateTime.now();
     _selectedEvents = _events[_selectedDay] ?? [];
   }
@@ -131,8 +132,18 @@ class _UserCalendarState extends State<UserCalendar>
         },
       ),
       onDaySelected: (date, events, holidays) {
-        print('CALLBACK: _onDaySelected, date: $date');
-        widget.selectDate(date.subtract(Duration(hours: 12)).toLocal());
+        date = date.toLocal();
+        date = date.subtract(
+          Duration(
+            hours: date.hour,
+            minutes: date.minute,
+            seconds: date.second,
+            milliseconds: date.millisecond,
+            microseconds: date.microsecond,
+          ),
+        );
+        print("CALLBACK DAY: $date");
+        widget.selectDate(date);
         setState(() {
           _selectedEvents = events;
         });

@@ -209,7 +209,7 @@ class _UserScreenState extends State<UserScreen> {
                     child: Text("Elimina utente"),
                     color: Colors.red[300],
                     onPressed: () async {
-                      if (await buildShowDialog(context)) {
+                      if ((await buildShowDialog(context)) ?? false) {
                         Provider.of<UsersProvider>(context, listen: false)
                             .removeUser(widget.id);
                         Navigator.of(context).pop();
@@ -230,6 +230,7 @@ class _UserScreenState extends State<UserScreen> {
 
   Future<bool> buildShowDialog(BuildContext context) {
     return showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -238,14 +239,15 @@ class _UserScreenState extends State<UserScreen> {
               const Text("Sei sicuro di volere cancellare questo elemento?"),
           actions: <Widget>[
             FlatButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: const Text(
-                  "ELIMINA",
-                  style: TextStyle(color: Colors.red),
-                )),
-            FlatButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: const Text("ANNULLA"),
+            ),
+            FlatButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text(
+                "ELIMINA",
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
         );

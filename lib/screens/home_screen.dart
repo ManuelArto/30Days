@@ -24,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
       hours: now.hour,
       minutes: now.minute,
       seconds: now.second,
+      milliseconds: now.millisecond,
+      microseconds: now.microsecond,
     ));
   }
 

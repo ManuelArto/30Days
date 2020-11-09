@@ -25,6 +25,8 @@ class _UsersControllerState extends State<UsersController>
         hours: now.hour,
         minutes: now.minute,
         seconds: now.second,
+        milliseconds: now.millisecond,
+        microseconds: now.microsecond,
       ));
       widget.selectDate(selectedDate);
     });
