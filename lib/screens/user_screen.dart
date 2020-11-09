@@ -190,9 +190,13 @@ class _UserScreenState extends State<UserScreen> {
                     if (waitTime == null)
                       return "Inserire un numero di giorni corretto";
                     if (selectedDate
-                        .add(Duration(days: waitTime))
-                        .isBefore(DateTime.now()))
-                      return "La nuova data deve essere dopo oggi";
+                        .add(Duration(
+                          days: waitTime,
+                          hours: notificationTime.hour,
+                          minutes: notificationTime.minute,
+                        ))
+                        .isBefore(DateTime.now()))(DateTime.now()))
+                      return "La prossima data deve essere nel futuro";
                     return null;
                   },
                 ),
