@@ -32,8 +32,24 @@ class UserCard extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
           ),
           subtitle: FittedBox(
-            child: Text(
-              'Peso: ${user.weight}Kg \t ${DateFormat('dd/MM/yyyy').format(user.date)} - ${DateFormat('dd/MM/yyyy').format(user.nextDate)}',
+            child: Row(
+              children: [
+                Text(
+                  user.lastWeight == null
+                      ? ""
+                      : "${user.weight == user.lastWeight ? '' : user.weight > user.lastWeight ? '+' : '-'}${(user.weight - user.lastWeight).toStringAsFixed(1)}",
+                  style: TextStyle(
+                    color: user.weight == user.lastWeight
+                        ? Colors.indigo
+                        : user.weight > user.lastWeight
+                            ? Colors.red
+                            : Colors.green,
+                  ),
+                ),
+                Text(
+                  ' ${user.weight.toStringAsFixed(1)}Kg \t ${DateFormat('dd/MM/yyyy').format(user.date)} - ${DateFormat('dd/MM/yyyy').format(user.nextDate)}',
+                ),
+              ],
             ),
           ),
           trailing: IconButton(

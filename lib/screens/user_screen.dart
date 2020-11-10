@@ -17,12 +17,15 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  bool newWeightCheck = false;
   DateTime selectedDate;
   TimeOfDay notificationTime;
+  User user;
   Map<String, dynamic> _formData = {
     "name": null,
     "surname": null,
     "weight": null,
+    "newWeight": null,
     "date": null,
     "waitTime": null,
     "notiticationTime": null
@@ -35,7 +38,7 @@ class _UserScreenState extends State<UserScreen> {
     selectedDate = widget.selectedDate;
     notificationTime = TimeOfDay(hour: 7, minute: 30);
     if (widget.id != null) {
-      User user = Provider.of<UsersProvider>(context, listen: false)
+      user = Provider.of<UsersProvider>(context, listen: false)
           .getUserById(widget.id);
       _formData["name"] = user.name;
       _formData["surname"] = user.surname;
@@ -129,6 +132,7 @@ class _UserScreenState extends State<UserScreen> {
               ListTile(
                 leading: const Icon(Icons.person, color: Colors.transparent),
                 title: TextFormField(
+                  enabled: !newWeightCheck,
                   initialValue: _formData["weight"]?.toString(),
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -143,6 +147,37 @@ class _UserScreenState extends State<UserScreen> {
                   },
                 ),
               ),
+              if (widget.id != null)
+                ListTile(
+                  leading: const Icon(Icons.person, color: Colors.transparent),
+                  trailing: Checkbox(
+                    value: newWeightCheck,
+                    onChanged: (check) {
+                      setState(() {
+                        selectedDate = check ? user.nextDate : user.date;
+                        newWeightCheck = check;
+                      });
+                    },
+                  ),
+                  title: TextFormField(
+                    enabled: newWeightCheck,
+                    initialValue: _formData['newWeight']?.toString(),
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: "Nuovo peso",
+                    ),
+                    onSaved: (value) => newWeightCheck
+                        ? _formData['newWeight'] = double.parse(value ?? '0')
+                        : _formData['newWeight'] = null,
+                    validator: (value) {
+                      if (!newWeightCheck) return null;
+                      if (value.isEmpty) return "Peso non puo' essere vuoto";
+                      double weight = double.tryParse(value);
+                      if (weight == null) return "Inserire un peso corretto";
+                      return null;
+                    },
+                  ),
+                ),
               ListTile(
                 leading: const Icon(Icons.access_time_sharp),
                 title: Column(
@@ -243,14 +278,15 @@ class _UserScreenState extends State<UserScreen> {
               const Text("Sei sicuro di volere cancellare questo elemento?"),
           actions: <Widget>[
             FlatButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: const Text(
-                  "ELIMINA",
-                  style: TextStyle(color: Colors.red),
-                )),
-            FlatButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: const Text("ANNULLA"),
+            ),
+            FlatButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text(
+                "ELIMINA",
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
         );

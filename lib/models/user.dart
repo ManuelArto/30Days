@@ -54,8 +54,11 @@ class User {
   void update(Map data) {
     name = data["name"];
     surname = data["surname"];
-    lastWeight = weight;
-    weight = data["weight"];
+    if (data["newWeight"] != null){
+      lastWeight = weight;
+      weight = data["newWeight"];
+    } else 
+      weight = data["weight"];
     date = data["date"];
     notificationTime = data["notificationTime"];
     nextDate = date.add(Duration(days: data["waitTime"]));
