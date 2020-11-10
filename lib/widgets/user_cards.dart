@@ -34,7 +34,7 @@ class UserCards extends StatelessWidget {
                     .toUpperCase()
                     .startsWith(_queryUser.toUpperCase()))
             .toList();
-    _users.sort((user1, user2) => user1.date.difference(user2.date).inSeconds);
+    _users.sort((user1, user2) => user1.nextDate.difference(user2.nextDate).inSeconds);
     return Flexible(
       fit: FlexFit.tight,
       child: ListView.builder(

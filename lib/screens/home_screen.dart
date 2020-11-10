@@ -41,17 +41,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
-        // drawer: DrawerWidget(),
+        drawer: DrawerWidget(),
         body: Stack(
           children: [
             GradienBackGround(height: screenSize.height * 0.35),
-            // Positioned(
-            //   top: screenSize.height * 0.01,
-            //   child: IconButton(
-            //       icon: Icon(Icons.menu),
-            //       color: Colors.white,
-            //       onPressed: () => _scaffoldKey.currentState.openDrawer()),
-            // ),
+            Positioned(
+              top: screenSize.height * 0.01,
+              child: IconButton(
+                  icon: Icon(Icons.menu),
+                  color: Colors.white,
+                  onPressed: () => _scaffoldKey.currentState.openDrawer()),
+            ),
             Positioned(
               top: screenSize.height * 0.05,
               width: screenSize.width,
